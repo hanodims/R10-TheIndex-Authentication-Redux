@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { signup } from "./redux/actions";
 
-const Signup = () => {
+const Signup = (props) => {
   const [userData, setUserData] = useState({
     username: "",
     email: "",
@@ -13,11 +15,11 @@ const Signup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert("I DON'T WORK YET");
+    props.signup(userData)
   };
 
   const { username, email, password } = userData;
-
+  if (props.user) return <Redirect to='/' />
   return (
     <div className="col-6 mx-auto">
       <div className="card my-5">
@@ -72,5 +74,9 @@ const Signup = () => {
     </div>
   );
 };
+const mapStateToProps = ({user}) => ({user})
+const mapDispatchToProps = dispatch => ({
+  signup: userData => dispatch(signup(userData))
+});
 
-export default Signup;
+export default connect(mapStateToProps,mapDispatchToProps)(Signup);

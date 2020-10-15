@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "./redux/actions";
 
-const Login = () => {
+const Login = props => {
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -12,7 +14,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert("I DON'T WORK YET");
+    props.login(userData);
   };
 
   const { username, password } = userData;
@@ -60,4 +62,10 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = dispatch => ({
+  login: userData => dispatch(login(userData))
+});
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);
