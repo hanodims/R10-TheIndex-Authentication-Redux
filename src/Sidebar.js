@@ -1,10 +1,16 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import Login from "./LoginForm";
+import Logout from './logout';
+import {logout} from './redux/actions';
+
 
 // Logo
 import logo from "./assets/theindex.svg";
 
-const Sidebar = () => (
+const Sidebar = ({user,logout}) => (
   <div id="sidebar">
     <img src={logo} className="logo" alt="the index logo" />
     <section>
@@ -13,14 +19,25 @@ const Sidebar = () => (
       </h4>
     </section>
     <div className="fixed-bottom">
-      <Link to="/login" className="btn btn-info m-2 float-left">
+  
+    {user ?
+    <Link to="/logout" className="btn btn-info m-2 float-left" onClick={() => logout()}>
+        Logout
+      </Link>
+      :
+    <div><Link to="/login" className="btn btn-info m-2 float-left">
         Login
       </Link>
+ 
       <Link to="/signup" className="btn btn-success m-2 float-left">
         Signup
-      </Link>
+      </Link></div>}
     </div>
   </div>
 );
+const mapStateToProps = ({user}) => ({user});
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout())
+});
 
-export default Sidebar;
+export default connect(mapStateToProps,mapDispatchToProps)(Sidebar)

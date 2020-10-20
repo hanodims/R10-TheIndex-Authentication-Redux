@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "./redux/actions";
 
@@ -18,7 +18,7 @@ const Login = props => {
   };
 
   const { username, password } = userData;
-
+  if (props.user) return <Redirect to='/' />
   return (
     <div className="col-6 mx-auto">
       <div className="card my-5">
@@ -61,11 +61,11 @@ const Login = props => {
     </div>
   );
 };
-
+const mapStateToProps = ({user}) => ({user});
 const mapDispatchToProps = dispatch => ({
   login: userData => dispatch(login(userData))
 });
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login);

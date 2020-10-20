@@ -1,6 +1,5 @@
 import decode from "jwt-decode";
 import Cookies from 'js-cookie';
-import axios from "axios";
 import {SET_CURRENT_USER} from "./actionTypes";
 
 import instance from "./instance";
@@ -19,7 +18,7 @@ const setAuthToken = token => {
 export const login = (userData) => {
     return async dispatch => {
         try {
-            const responce = await axios.post('https://the-index-api.herokuapp.com/login/', userData);
+            const responce = await instance.post('/login/', userData);
             console.log(responce.data)
             const {token} = responce.data
             dispatch(setCurrentUser(token));
@@ -32,7 +31,7 @@ export const login = (userData) => {
 export const signup = (userData) => {
     return async dispatch => {
         try{
-            const responce = await axios.post("https://the-index-api.herokuapp.com/signup/", userData)
+            const responce = await instance.post("/signup/", userData)
             const {token} = responce.data;
             dispatch(setCurrentUser(token));
         }catch(error){
